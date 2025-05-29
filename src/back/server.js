@@ -7,12 +7,18 @@ const port = 3000;
 app.use(express.json());
 app.use(cors());
 const arr = [];
+let issaving = false;
 
 app.get("/home", (req, res) => {
-  res.status(200).json(arr);
+  return res.status(200).json(arr);
 });
 app.post("/", async (req, res) => {
-  const { url, category } = req.body;
+  const { url, category } = await req.body;
+  if (issaving) {
+    return res.status(429).send("too fast try slower");
+  }
+
+  issaving = true;
 
   const lar = arr.some((p) => {
     return p.link === url;
@@ -71,6 +77,8 @@ app.post("/", async (req, res) => {
   } catch (error) {
     console.error("cannot fetch data", error);
     res.status(500).send("Failed to fetch video data");
+  } finally {
+    issaving = false;
   }
 });
 

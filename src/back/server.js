@@ -1,24 +1,28 @@
 const express = require("express");
+require("dotenv").config();
 const cors = require("cors");
 const axios = require("axios");
-const apiKey = "AIzaSyCZCK3qK7tgbDsr9-xWhba6-xhJZDwpuSc";
+const pool = require("./db.js");
+const apiKey = process.env.apiKey;
 const app = express();
 const port = 3000;
 app.use(express.json());
 app.use(cors());
 const arr = [];
-let issaving = false;
 
-app.get("/home", (req, res) => {
-  return res.status(200).json(arr);
+app.get("/home", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM links ORDER BY created_at DESC"
+    );
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.log("cant fetch links");
+    res.status(500).send("error fetching");
+  }
 });
 app.post("/", async (req, res) => {
   const { url, category } = await req.body;
-  if (issaving) {
-    return res.status(429).send("too fast try slower");
-  }
-
-  issaving = true;
 
   const lar = arr.some((p) => {
     return p.link === url;
@@ -66,19 +70,24 @@ app.post("/", async (req, res) => {
     );
     const video = response.data.items[0];
 
-    arr.push({
-      title: video.snippet.title,
-      thumbnail: video.snippet.thumbnails.high.url,
-      likes: video.statistics.likeCount,
-      views: video.statistics.viewCount,
-      link: url,
-      category: category,
-    });
+    const insert = await pool.query(
+      `insert into links(title, thumbnail, likes, views, link, categories)
+  values($1, $2, $3, $4, $5, $6)
+  returning *`,
+      [
+        video.snippet.title,
+        video.snippet.thumbnails.high.url,
+        video.statistics.likeCount,
+        video.statistics.viewCount,
+        url,
+        category,
+      ]
+    );
+
+    res.json(insert.rows[0]);
   } catch (error) {
     console.error("cannot fetch data", error);
     res.status(500).send("Failed to fetch video data");
-  } finally {
-    issaving = false;
   }
 });
 

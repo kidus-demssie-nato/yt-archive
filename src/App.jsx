@@ -65,7 +65,7 @@ function Home(props) {
                 const selected = e.target.value;
 
                 const tapy = links.filter((lim) => {
-                  return lim.category === selected;
+                  return lim.categories === selected;
                 });
                 console.log(tapy);
                 setsta(tapy);

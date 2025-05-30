@@ -53,7 +53,7 @@ function Home(props) {
     <>
       <div className="holder">
         <header className="header">
-          <h1>hello</h1>
+          <h1>HOME</h1>
         </header>
         <nav className="sidebar">
           <Link to="/Posts">post your Url</Link>
@@ -125,7 +125,7 @@ function Home(props) {
           </div>
         </main>
         <footer className="footer">
-          <div>kidus</div>
+          <div></div>
         </footer>
       </div>
     </>

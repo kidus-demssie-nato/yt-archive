@@ -17,8 +17,8 @@ app.get("/home", async (req, res) => {
     );
     res.status(200).json(result.rows);
   } catch (err) {
-    console.log("cant fetch links");
-    res.status(500).send("error fetching");
+    console.log("cant fetch links", err);
+    res.status(500).JSON("error fetching");
   }
 });
 app.post("/", async (req, res) => {
@@ -87,7 +87,7 @@ app.post("/", async (req, res) => {
     res.json(insert.rows[0]);
   } catch (error) {
     console.error("cannot fetch data", error);
-    res.status(500).send("Failed to fetch video data");
+    res.status(500).JSON("Failed to fetch video data");
   }
 });
 

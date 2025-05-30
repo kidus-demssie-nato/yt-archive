@@ -3,11 +3,9 @@ require("dotenv").config;
 
 const pool = new Pool({
   connectionString: process.env.dburl,
-  ssl: process.env.dburl
-    ? {
-        rejectUnauthorized: false,
-      }
-    : false,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   user: "postgres",
   host: "localhost",
   database: "myapp",

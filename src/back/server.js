@@ -3,7 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const axios = require("axios");
 const pool = require("./db.js");
-const apiKey = process.env.apiKey;
+const apiKey = process.env.API_KEY;
 const app = express();
 const port = 3000;
 app.use(express.json());

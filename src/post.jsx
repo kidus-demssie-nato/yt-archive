@@ -34,7 +34,7 @@ function Las(props) {
   });
 
   async function add() {
-    await fetch("http://localhost:3000/", {
+    await fetch("https://youtube-archive.onrender.com", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(blam),

@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     async function balam() {
-      const response = await fetch("http://localhost:3000/home");
+      const response = await fetch("https://youtube-archive.onrender.com/home");
       console.log(response);
       const data = await response.json();
       console.log(data);

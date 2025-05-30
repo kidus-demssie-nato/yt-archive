@@ -3,8 +3,6 @@
 import "./App.css";
 import { useState } from "react";
 
-//AIzaSyCZCK3qK7tgbDsr9-xWhba6-xhJZDwpuSc
-
 export const langs = [
   "JavaScript",
   "Python",
